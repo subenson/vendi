@@ -1,0 +1,42 @@
+services:
+
+  # Product
+  product:
+    build:
+      context: ./backend/product-service
+      dockerfile: Dockerfile
+    container_name: product
+    volumes:
+      - ./backend/product-service:/app
+    environment:
+      - NODE_ENV=development
+      - HTTP_PORT=3000
+      - MICROSERVICE_TCP_PORT=3001
+      - MONGODB_URI=mongodb://${MONGO_PRODUCT_DB_USER}:${MONGO_PRODUCT_DB_PASSWORD}@mongodb:${MONGO_PRODUCT_DB_PORT}/${MONGO_PRODUCT_DB}?authSource=admin
+    ports:
+      - "4010:3000"
+    networks:
+      - mongodb-network
+    depends_on:
+      - mongodb
+
+  # MongoDB
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_PRODUCT_DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PRODUCT_DB_PASSWORD}
+    networks:
+      - mongodb-network
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+
+networks:
+  mongodb-network:
+    driver: bridge
