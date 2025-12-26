@@ -3,11 +3,11 @@ services:
   # Product
   product:
     build:
-      context: ./backend/product-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./backend/product-service/Dockerfile
     container_name: product
     volumes:
-      - ./backend/product-service:/app
+      - ./backend:/app/backend
     environment:
       - NODE_ENV=development
       - HTTP_PORT=3000

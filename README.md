@@ -2,11 +2,19 @@
 
 Demo project to demonstrate event-driven microservices.
 
-Services:
+## Services
 
-- Product Service
+| Service           | Location                  | Responsibility           | Database |
+|-------------------|---------------------------|--------------------------|----------|
+| Product Service   | backend/product-service   | Manages product catalog  | MongoDB  |
 
-Technologies:
+## Technologies
 
 - NestJS
 - MongoDB
+
+## Architecture
+
+Key characteristics:
+
+- Cross-cutting concerns are handled via a shared **service-chassis** (`backend/chassis/*`)

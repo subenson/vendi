@@ -1,0 +1,17 @@
+{
+  "name": "vendi",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "backend/chassis/multi-tenancy",
+    "backend/product-service"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "build:multi-tenancy": "npm run build --workspace=@vendi/multi-tenancy",
+    "build:product": "npm run build --workspace=product-service",
+    "build:all": "npm run build:multi-tenancy && npm run build:product",
+    "dev:product": "npm run start:dev --workspace=product-service",
+    "dev:multi-tenancy": "npm run build:watch --workspace=@vendi/multi-tenancy"
+  }
+}
