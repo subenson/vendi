@@ -4,17 +4,16 @@ Demo project to demonstrate event-driven microservices.
 
 ## Services
 
-| Service           | Location                  | Responsibility           | Database |
-|-------------------|---------------------------|--------------------------|----------|
-| Product Service   | backend/product-service   | Manages product catalog  | MongoDB  |
+| Service           | Location                  | Responsibility           | Tech    | Database    |
+|-------------------|---------------------------|--------------------------|---------|-------------|
+| Identity Service  | backend/identity-service  | Manages users            | NestJS  | PostgreSQL  |
+| Product Service   | backend/product-service   | Manages product catalog  | NestJS  | MongoDB     |
 
-## Technologies
+## Chassis
 
-- NestJS
-- MongoDB
+Cross-cutting concerns are handled via a shared service chassis.
 
-## Architecture
-
-Key characteristics:
-
-- Cross-cutting concerns are handled via a shared **service-chassis** (`backend/chassis/*`)
+| Chassis        | Location                        | Responsibility             |
+|----------------|---------------------------------|----------------------------|
+| core           | backend/chassis/core            | Common shared code         |
+| multi-tenancy  | backend/chassis/multi-tenancy   | Multi-tenancy related code |

@@ -10,9 +10,8 @@ COPY backend ./backend
 RUN npm install
 
 RUN npm run build --workspace=@vendi/core
-RUN npm run build --workspace=@vendi/multi-tenancy
 
-COPY backend/product-service/dev-entrypoint.sh /app/dev-entrypoint.sh
+COPY backend/identity-service/dev-entrypoint.sh /app/dev-entrypoint.sh
 RUN chmod +x /app/dev-entrypoint.sh
 
 WORKDIR /app

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TenantGuard } from './guards/tenant.guard';
+import { ValidationPipe } from './pipes/validation.pipe';
 import { ClsModule } from 'nestjs-cls';
 
 @Module({
@@ -8,7 +8,7 @@ import { ClsModule } from 'nestjs-cls';
       global: true,
     }),
   ],
-  providers: [TenantGuard],
-  exports: [TenantGuard],
+  providers: [ValidationPipe],
+  exports: [ValidationPipe],
 })
-export class MultiTenancyModule {}
+export class CoreModule {}

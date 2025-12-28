@@ -1,0 +1,11 @@
+{
+  "watch": [
+    "src",
+    "../chassis/core/dist"
+  ],
+  "ext": "ts,js",
+  "ignore": [
+    "src/**/*.spec.ts"
+  ],
+  "exec": "nest start --watch"
+}

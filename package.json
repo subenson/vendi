@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "workspaces": [
+    "backend/chassis/core",
     "backend/chassis/multi-tenancy",
-    "backend/product-service"
+    "backend/product-service",
+    "backend/identity-service"
   ],
   "scripts": {
     "install:all": "npm install",

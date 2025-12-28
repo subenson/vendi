@@ -1,5 +1,36 @@
 services:
 
+  # Identity
+  identity:
+    build:
+      context: .
+      dockerfile: ./backend/identity-service/Dockerfile
+    container_name: identity
+    volumes:
+      - ./backend:/app/backend
+    environment:
+      - NODE_ENV=development
+      - HTTP_PORT=3000
+      - MICROSERVICE_TCP_PORT=4101
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_SECURE=${SMTP_SECURE}
+      - PSQL_HOST=${PSQL_CONFIG_HOST}
+      - PSQL_PORT=${PSQL_CONFIG_PORT}
+      - PSQL_USERNAME=${PSQL_CONFIG_USERNAME}
+      - PSQL_PASSWORD=${PSQL_CONFIG_PASSWORD}
+      - PSQL_DATABASE=${PSQL_CONFIG_DATABASE}
+    ports:
+      - "4001:3000"
+    networks:
+      - postgres-network
+      - mail-network
+    depends_on:
+      - postgres
+      - smtp
+
   # Product
   product:
     build:
@@ -11,10 +42,15 @@ services:
     environment:
       - NODE_ENV=development
       - HTTP_PORT=3000
-      - MICROSERVICE_TCP_PORT=3001
+      - MICROSERVICE_TCP_PORT=4103
       - MONGODB_URI=mongodb://${MONGO_PRODUCT_DB_USER}:${MONGO_PRODUCT_DB_PASSWORD}@mongodb:${MONGO_PRODUCT_DB_PORT}/${MONGO_PRODUCT_DB}?authSource=admin
+      - PSQL_HOST=${PSQL_CONFIG_HOST}
+      - PSQL_PORT=${PSQL_CONFIG_PORT}
+      - PSQL_USERNAME=${PSQL_CONFIG_USERNAME}
+      - PSQL_PASSWORD=${PSQL_CONFIG_PASSWORD}
+      - PSQL_DATABASE=${PSQL_CONFIG_DATABASE}
     ports:
-      - "4010:3000"
+      - "4003:3000"
     networks:
       - mongodb-network
     depends_on:
@@ -32,11 +68,48 @@ services:
     networks:
       - mongodb-network
     volumes:
-      - mongo-data:/data/db
+      - mongo-data:/data/mongodb
+
+  # PostgreSQL
+  postgres:
+    container_name: postgres
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=${PSQL_CONFIG_USERNAME}
+      - POSTGRES_PASSWORD=${PSQL_CONFIG_PASSWORD}
+      - POSTGRES_DB=${PSQL_CONFIG_DATABASE}
+    ports:
+      - "6432:${PSQL_CONFIG_PORT}"
+    volumes:
+      - postgres-data:/data/postgres
+    networks:
+      - postgres-network
+
+  # SMTP
+  smtp:
+    image: mailhog/mailhog:latest
+    container_name: smtp
+    ports:
+      - "1025:1025"
+      - "9025:8025"
+    environment:
+      - MH_STORAGE=maildir
+      - MH_MAILDIR_PATH=/maildir
+    volumes:
+      - smtp-data:/data/smtp
+    user: "root"
+    networks:
+      - mail-network
 
 volumes:
   mongo-data:
+  postgres-data:
+  smtp-data:
 
 networks:
   mongodb-network:
+    driver: bridge
+  postgres-network:
+    driver: bridge
+  mail-network:
     driver: bridge
