@@ -11,9 +11,14 @@ Demo project to demonstrate event-driven microservices.
 
 ## Chassis
 
-Cross-cutting concerns are handled via a shared service chassis.
+Cross-cutting concerns are handled via a shared microservice chassis.
 
 | Chassis        | Location                        | Responsibility             |
 |----------------|---------------------------------|----------------------------|
 | core           | backend/chassis/core            | Common shared code         |
 | multi-tenancy  | backend/chassis/multi-tenancy   | Multi-tenancy related code |
+
+## Architecture
+
+- Control Database (Tenant Registry)
+- Database per Service per Tenant

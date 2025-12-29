@@ -1,14 +1,16 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { LoginDto } from '../dto/login.dto';
+import { CommandBus } from '@nestjs/cqrs';
+import { SendLoginLinkCommand } from '../command/send-login-link.command';
 
 @Controller('login')
 export class LoginRequestHandler {
+  constructor(private readonly commandBus: CommandBus) {}
+
   @Post()
-  login(@Body() loginDto: LoginDto) {
-    console.log('Login attempt for email:', loginDto.email);
-    return {
-      message: 'Login request received.',
-      email: loginDto.email,
-    };
+  async login(@Body() loginDto: LoginDto) {
+    await this.commandBus.execute(
+      new SendLoginLinkCommand(loginDto.email, loginDto.redirectUrl),
+    );
   }
 }

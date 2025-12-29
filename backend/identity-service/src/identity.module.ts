@@ -1,13 +1,22 @@
 import { Module } from '@nestjs/common';
-import { databaseProviders } from './infrastructure/database/database.providers';
 import { ConfigModule } from '@nestjs/config';
 import { LoginRequestHandler } from './application/request-handler/login.request-handler';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CoreModule } from '@vendi/core';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { User } from './domain/model/user.model';
+import { SendLoginLinkHandler } from './application/command/send-login-link.handler';
+import { dataSourceOptions } from './infrastructure/database/data-source';
 
 @Module({
-  imports: [ConfigModule.forRoot(), CqrsModule.forRoot(), CoreModule],
+  imports: [
+    ConfigModule.forRoot(),
+    CqrsModule.forRoot(),
+    CoreModule,
+    TypeOrmModule.forRoot(dataSourceOptions as TypeOrmModuleOptions),
+    TypeOrmModule.forFeature([User]),
+  ],
   controllers: [LoginRequestHandler],
-  providers: [...databaseProviders],
+  providers: [SendLoginLinkHandler],
 })
 export class IdentityModule {}
