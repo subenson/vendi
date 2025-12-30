@@ -18,12 +18,24 @@ export class User {
   email: string;
 
   @Exclude()
-  @Column({ type: 'varchar', length: 50 })
-  loginToken: string;
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  loginToken: string | null;
 
   @Exclude()
   @Column({ type: 'timestamp', nullable: true })
   loginTokenExpiresAt: Date | null;
+
+  @Exclude()
+  @Column({ type: 'varchar', length: 32, nullable: true, unique: true })
+  refreshTokenId: string | null;
+
+  @Exclude()
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  refreshTokenHash: string | null;
+
+  @Exclude()
+  @Column({ type: 'timestamp', nullable: true })
+  refreshTokenExpiresAt: Date | null;
 
   @Exclude()
   @Column({ type: 'timestamp', nullable: true })
@@ -60,6 +72,30 @@ export class User {
     }
     const now = new Date();
     return this.loginToken === token && this.loginTokenExpiresAt > now;
+  }
+
+  resetLoginRequest(): void {
+    this.loginToken = null;
+    this.loginTokenExpiresAt = null;
+  }
+
+  setRefreshToken(tokenId: string, hash: string, expiresAt: Date): void {
+    this.refreshTokenId = tokenId;
+    this.refreshTokenHash = hash;
+    this.refreshTokenExpiresAt = expiresAt;
+  }
+
+  isRefreshTokenExpired(): boolean {
+    if (!this.refreshTokenExpiresAt) {
+      return true;
+    }
+    return this.refreshTokenExpiresAt <= new Date();
+  }
+
+  clearRefreshToken(): void {
+    this.refreshTokenId = null;
+    this.refreshTokenHash = null;
+    this.refreshTokenExpiresAt = null;
   }
 
   setLastLogin(): void {

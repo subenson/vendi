@@ -1,9 +1,9 @@
 import { IsEmail, IsString } from 'class-validator';
 
-export class LoginDto {
+export class LoginWithTokenDto {
   @IsEmail()
   email: string;
 
   @IsString()
-  redirectUrl: string;
+  token: string;
 }

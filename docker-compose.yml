@@ -22,6 +22,7 @@ services:
       - PSQL_USERNAME=${PSQL_IDENTITY_USERNAME}
       - PSQL_PASSWORD=${PSQL_IDENTITY_PASSWORD}
       - PSQL_DATABASE=${PSQL_IDENTITY_DATABASE}
+      - JWT_SECRET=${JWT_SECRET}
     ports:
       - "4001:3000"
     networks:

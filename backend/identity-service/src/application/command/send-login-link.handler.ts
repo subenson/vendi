@@ -33,8 +33,7 @@ export class SendLoginLinkHandler {
 
     await this.userRepository.save(user);
 
-    console.log(
-      `Sending login link to ${user.email}: ${command.redirectUrl}?token=${loginToken}`,
-    );
+    console.log(`Sending login link to: ${user.email}`);
+    console.log(`Token: ${loginToken}`);
   }
 }
