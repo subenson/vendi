@@ -9,6 +9,7 @@ import { SendLoginLinkHandler } from './application/command/send-login-link.hand
 import { dataSourceOptions } from './infrastructure/database/data-source';
 import { LoginWithTokenHandler } from './application/command/login-with-token.handler';
 import { RefreshTokenHandler } from './application/command/refresh-token.handler';
+import { LogoutHandler } from './application/command/logout.handler';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
@@ -25,6 +26,11 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   controllers: [LoginRequestHandler],
-  providers: [SendLoginLinkHandler, LoginWithTokenHandler, RefreshTokenHandler],
+  providers: [
+    SendLoginLinkHandler,
+    LoginWithTokenHandler,
+    RefreshTokenHandler,
+    LogoutHandler,
+  ],
 })
 export class IdentityModule {}

@@ -51,8 +51,7 @@ export class RefreshTokenHandler {
       accessToken: this.jwtService.sign({
         sub: user.id,
         email: user.email,
-        tenants: [],
-        current_tenant: null,
+        organizations: [],
       }),
       refreshToken: refreshToken,
     };
