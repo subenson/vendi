@@ -1,7 +1,7 @@
 {
   "watch": [
     "src",
-    "../chassis/core/dist"
+    "../core/dist"
   ],
   "ext": "ts,js",
   "ignore": [

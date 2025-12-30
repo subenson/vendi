@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
-export class UnprocessableEntityException extends HttpException {
+export class HttpValidationException extends HttpException {
   constructor(errors: { property: string; constraints: string[] }[]) {
     super(
       {

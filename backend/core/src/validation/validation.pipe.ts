@@ -1,6 +1,6 @@
 import { HttpStatus, ValidationPipe as NestValidationPipe } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
-import { UnprocessableEntityException } from '../exceptions/unprocessable-entity.exception';
+import { HttpValidationException } from './http-validation.exception';
 
 export class ValidationPipe extends NestValidationPipe {
   constructor() {
@@ -14,7 +14,7 @@ export class ValidationPipe extends NestValidationPipe {
           property: error.property === 'undefined' ? 'class' : error.property,
           constraints: this.formatConstraints(error.constraints || {}),
         }));
-        return new UnprocessableEntityException(formattedErrors);
+        return new HttpValidationException(formattedErrors);
       },
     });
   }

@@ -1,5 +1,5 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { CurrentTenant, TenantGuard } from '@vendi/multi-tenancy';
+import { CurrentTenant, TenantGuard } from '@vendi/core';
 
 @Controller('products')
 export class ProductsRequestHandler {

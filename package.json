@@ -3,18 +3,20 @@
   "version": "0.0.1",
   "private": true,
   "workspaces": [
-    "backend/chassis/core",
-    "backend/chassis/multi-tenancy",
+    "backend/core",
     "backend/product-service",
     "backend/identity-service"
   ],
   "scripts": {
     "install:all": "npm install",
-    "build:multi-tenancy": "npm run build --workspace=@vendi/multi-tenancy",
+    "build:core": "npm run build --workspace=@vendi/core",
+    "build:identity": "npm run build --workspace=identity-service",
     "build:product": "npm run build --workspace=product-service",
-    "build:all": "npm run build:multi-tenancy && npm run build:product",
+    "build:all:identity": "npm run build:core && npm run build:identity && npm run build:product",
+    "dev:core": "npm run build:watch --workspace=@vendi/core",
+    "dev:identity": "npm run start:dev --workspace=identity-service",
     "dev:product": "npm run start:dev --workspace=product-service",
-    "dev:multi-tenancy": "npm run build:watch --workspace=@vendi/multi-tenancy"
+    "dev:all": "npm run dev:core & npm run dev:identity & npm run dev:product"
   },
   "dependencies": {
     "@nestjs/typeorm": "^11.0.0",
