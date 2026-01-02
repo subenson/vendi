@@ -1,5 +1,6 @@
 export * from './core.module';
-export * from './auth/guards/jwt-auth.guard';
+export * from './auth/guards/jwt-user.guard';
+export * from './auth/decorators/current-user.decorator';
 export * from './utils/prefixed-ulid.util';
 export * from './multi-tenancy/decorators/current-tenant.decorator';
 export * from './multi-tenancy/exceptions/invalid-tenant-exception';

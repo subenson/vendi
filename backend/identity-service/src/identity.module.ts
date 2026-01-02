@@ -1,15 +1,21 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { LoginRequestHandler } from './application/request-handler/login.request-handler';
+import { OrganizationRequestHandler } from './application/request-handler/organization.request-handler';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CoreModule } from '@vendi/core';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { User } from './domain/model/user.model';
+import { Organization } from './domain/model/organization.model';
+import { Membership } from './domain/model/membership.model';
 import { SendLoginLinkHandler } from './application/command/send-login-link.handler';
 import { dataSourceOptions } from './infrastructure/database/data-source';
 import { LoginWithTokenHandler } from './application/command/login-with-token.handler';
 import { RefreshTokenHandler } from './application/command/refresh-token.handler';
 import { LogoutHandler } from './application/command/logout.handler';
+import { CreateOrganizationHandler } from './application/command/create-organization.handler';
+import { DeleteOrganizationHandler } from './application/command/delete-organization.handler';
+import { GetOrganizationsQueryHandler } from './application/query/get-organizations.handler';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
@@ -18,14 +24,17 @@ import { JwtModule } from '@nestjs/jwt';
     CqrsModule.forRoot(),
     CoreModule,
     TypeOrmModule.forRoot(dataSourceOptions as TypeOrmModuleOptions),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Organization, Membership]),
   ],
-  controllers: [LoginRequestHandler],
+  controllers: [LoginRequestHandler, OrganizationRequestHandler],
   providers: [
     SendLoginLinkHandler,
     LoginWithTokenHandler,
     RefreshTokenHandler,
     LogoutHandler,
+    CreateOrganizationHandler,
+    DeleteOrganizationHandler,
+    GetOrganizationsQueryHandler,
   ],
 })
 export class IdentityModule {}

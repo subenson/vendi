@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClsModule } from 'nestjs-cls';
 import { PrefixedUlid } from './utils/prefixed-ulid.util';
-import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { JwtUserGuard } from './auth/guards/jwt-user.guard';
 import { TenantGuard } from './multi-tenancy/guards/tenant.guard';
 import { ValidationPipe } from './validation/validation.pipe';
 import { JwtModule } from '@nestjs/jwt';
@@ -18,13 +18,13 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   providers: [
-    JwtAuthGuard,
+    JwtUserGuard,
     PrefixedUlid,
     TenantGuard,
     ValidationPipe,
   ],
   exports: [
-    JwtAuthGuard,
+    JwtUserGuard,
     PrefixedUlid,
     TenantGuard,
     ValidationPipe,

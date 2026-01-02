@@ -1,5 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { User } from '../../domain/model/user.model';
+import { Organization } from '../../domain/model/organization.model';
+import { Membership } from '../../domain/model/membership.model';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -8,7 +10,7 @@ export const dataSourceOptions: DataSourceOptions = {
   username: process.env.PSQL_USERNAME,
   password: process.env.PSQL_PASSWORD,
   database: process.env.PSQL_DATABASE,
-  entities: [User],
+  entities: [User, Organization, Membership],
   migrations: ['dist/infrastructure/database/migrations/*.js'],
   synchronize: false,
   logging: process.env.NODE_ENV === 'development',

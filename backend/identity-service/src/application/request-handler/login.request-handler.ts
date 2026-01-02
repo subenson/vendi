@@ -15,7 +15,7 @@ import { LoginWithTokenCommand } from '../command/login-with-token.command';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
 import { RefreshTokenCommand } from '../command/refresh-token.command';
 import { LogoutCommand } from '../command/logout.command';
-import { JwtAuthGuard } from '@vendi/core';
+import { JwtUserGuard } from '@vendi/core';
 
 @Controller('login')
 export class LoginRequestHandler {
@@ -37,7 +37,7 @@ export class LoginRequestHandler {
   }
 
   @Delete()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtUserGuard)
   async logout(@Request() req: { user: { sub: string } }) {
     await this.commandBus.execute(new LogoutCommand(req.user.sub));
   }
